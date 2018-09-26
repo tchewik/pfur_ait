@@ -41,3 +41,13 @@ def plot_function(x, f_str, quadratic=False):
     plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 
     return plot_div
+
+
+def get_str_quadr_y(a, b, c):
+    y = ''
+    y += str(a) * (a not in [0, 1]) + '*' * (a not in [0, 1]) + 'x^2' * (a != 0)
+    y += '+' * (b != 0) + str(b) * (b not in [0, 1]) + '*' * (b not in [0, 1]) + 'x' * (b != 0)
+    y += ('+' + str(c)) * (c != 0)
+    y = y.replace('+-', '-')
+
+    return y

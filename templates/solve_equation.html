@@ -34,6 +34,20 @@
                     <input type="text" value="{{ c }}" id="c" name="c">
                 </div>
 
+                {% if x1 %}
+                    <div class="col">
+                        <div class="card-panel white">
+                        <span> answer: x1 = {{ x1 }}, x2 = {{ x2 }}</span>
+                        </div>
+                    </div>
+                {% elif complex_roots_exception %}
+                    <div class="col">
+                        <div class="card-panel white">
+                        <span> {{ complex_roots_exception }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+
             </div>
 
             <div class="row">
@@ -55,6 +69,7 @@
 
         </div>
       </div>
+
 
 
 <div class="container">

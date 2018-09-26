@@ -41,14 +41,20 @@ def solve_eq_view(request):
             a = data['a']
             b = data['b']
             c = data['c']
-            data['x1'], data['x2'] = np.roots([a, b, c])
-            x = np.arange(data['x1']-5, data['x2']+5, 0.1)
 
-            y = ''
-            y += str(a) * (a not in [0, 1]) + 'x^2' * (a != 0)
-            y += str(b) * (b not in [0, 1]) + 'x' * (b != 0)
-            y += str(c) * (c not in [0, 1])
-            data['plot'] = plots.plot_function(x=x, f_str=y, quadratic=True)
+            roots = np.roots([a, b, c])
+            if len(roots) == 1:
+                roots *= 2
+            if len(roots) == 2:
+                if type(roots[0]) != np.complex128:
+
+                    data['x1'], data['x2'] = roots
+                    x = np.arange(data['x1']-5, data['x2']+5, 0.1)
+                    y = plots.get_str_quadr_y(a, b, c)
+                    data['plot'] = plots.plot_function(x=x, f_str=y, quadratic=True)
+
+                else:
+                    data['complex_roots_exception'] = 'The roots are complex; not allowed.'
 
             return render(request, template_name, data)
 
