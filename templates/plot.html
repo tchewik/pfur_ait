@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{block.super}}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>Plot every function you need!</h1>
+</div>
+<!-- /.container -->
+
+<div class="container">
+        <div class="row">
+
+          <div class="col s12">
+            <form method="post" > {% csrf_token %}
+
+            <div class="row">
+              <div class="col m5 s12">
+                <label for="function">f(x)</label>
+                <input type="text" value="{{ function }}" id="function" name="function">
+              </div>
+
+              <div class="col m3 s4">
+                <label for="x0">from</label>
+                <input type="number" value="{{ x0 }}" id="x0" name="x0">
+              </div>
+
+
+              <div class="col m3 s4">
+                <label for="x1">to</label>
+                <input type="number" value="{{ x1 }}" id="x1" name="x1">
+              </div>
+
+
+              <div class="col m1 s2">
+                <label for="step">step</label>
+                <input type="number" min="0" step="0.1" value="{{ step }}" id="step" name="step">
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-primary pull-left" href="{% url "index" %}"> Go back</a>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary pull-right">Draw Graph</button>
+                </div>
+            </div>
+
+          </form>
+          </div>
+
+
+          <div class="col s12 center-align">
+            {{ div | safe }}
+          </div>
+
+        </div>
+      </div>
+
+
+<div class="container">
+    <div class="col">
+        <div class="row s12">
+            {{plot|safe}}
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+
+{% endblock %}

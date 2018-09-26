@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{block.super}}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>Reverse some string!</h1>
+</div>
+<!-- /.container -->
+
+<div class="container">
+        <div class="row">
+
+          <div class="col s12">
+            <form method="post" > {% csrf_token %}
+
+            <div class="row">
+                <div class="col s12">
+                    <label for="string">String to reverse</label>
+                    <input type="text" value="{{ string }}" id="string" name="string">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-primary pull-left" href="{% url "index" %}"> Go back</a>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary pull-right">Reverse</button>
+                </div>
+            </div>
+
+          </form>
+          </div>
+
+
+          <div class="col s12 center-align">
+            {{ div | safe }}
+          </div>
+
+        </div>
+      </div>
+
+
+<div class="container" align="center">
+    <p class="lead">Reversed string is...</p>
+    <h3>{{reversed_string|safe}}</h3>
+</div>
+
+
+{% endblock %}

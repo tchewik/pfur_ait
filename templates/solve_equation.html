@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{block.super}}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>Let's solve quadratic equations!</h1>
+</div>
+<!-- /.container -->
+
+<div class="container">
+        <div class="row">
+
+          <div class="col s12">
+            <form method="post" > {% csrf_token %}
+
+            <div class="row">
+                <div class="col s2">
+                    <label for="a">a</label>
+                    <input type="text" value="{{ a }}" id="a" name="a">
+                </div>
+
+                <div class="col s2">
+                    <label for="b">b</label>
+                    <input type="text" value="{{ b }}" id="b" name="b">
+                </div>
+
+                <div class="col s2">
+                    <label for="b">c</label>
+                    <input type="text" value="{{ c }}" id="c" name="c">
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-primary pull-left" href="{% url "index" %}"> Go back</a>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary pull-right">Solve</button>
+                </div>
+            </div>
+
+          </form>
+          </div>
+
+
+          <div class="col s12 center-align">
+            {{ div | safe }}
+          </div>
+
+        </div>
+      </div>
+
+
+<div class="container">
+    <div class="col">
+        <div class="row s12">
+            {{plot|safe}}
+    </div>
+    </div>
+</div>
+<!-- /.container -->
+
+{% endblock %}
