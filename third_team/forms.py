@@ -13,6 +13,6 @@ class SendEquationForm(forms.Form):
 
 class SendFunctionForm(forms.Form):
     function = forms.CharField()
-    x0 = forms.IntegerField()
-    x1 = forms.IntegerField()
-    step = forms.FloatField()
+    x0 = forms.FloatField()
+    x1 = forms.FloatField()
+    step = forms.FloatField(min_value=0.01)
