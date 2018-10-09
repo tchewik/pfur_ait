@@ -68,7 +68,7 @@ def plot_view(request):
         form = forms.SendFunctionForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            x = np.arange(data['x0'], data['x1']+data['step'], data['step'])
+            x = np.arange(data['x0'], data['x1']+min(abs(data['x1'] - data['x0']), data['step']), data['step'])
             y = data['function'].replace(' ', '')
             data['function'] = y
             data['plot'] = plots.plot_function(x=x, f_str=y)
