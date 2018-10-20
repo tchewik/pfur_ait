@@ -1,0 +1,5 @@
+hi = ''
+help = ''
+task = ''
+findingSolution = ''
+sendSolution = ''

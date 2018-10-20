@@ -1,7 +1,6 @@
 import logging
 
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView
 from django.shortcuts import render, render_to_response
 import numpy as np
 

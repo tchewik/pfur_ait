@@ -55,7 +55,7 @@ ROOT_URLCONF = 'third_team.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'lab_1_web_app/templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
