@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from src.points_finder import PointsFinder
 from telegram import ChatAction
@@ -7,11 +8,14 @@ from telegram import ParseMode
 from telegram import ReplyKeyboardMarkup
 from telegram import ReplyKeyboardRemove
 
+sys.path.append("..")
+import config
+
 from .strings import AvailableStrings
 
 logger = logging.getLogger(__name__)
 
-finder = PointsFinder('data/base_drugstores_supermarkets.csv')
+finder = PointsFinder(config.DATABASE)
 
 keyboard = [[KeyboardButton(AvailableStrings.button_text, callback_data="location", request_location=True)]]
 reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -42,12 +46,20 @@ def locationMessage(bot, update):
     bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 
     locations = finder(curr_location[0], curr_location[1])
-    bot.send_message(chat_id=chat_id, text=AvailableStrings.finding_text_start, parse_mode=ParseMode.HTML, reply_markup=ReplyKeyboardRemove())
+    bot.send_message(chat_id=chat_id, text=AvailableStrings.finding_text_start,
+                     parse_mode=ParseMode.HTML,
+                     reply_markup=ReplyKeyboardRemove())
     _counter = 1
     for location in locations:
-        name, latitude, longitude = '%d) %s'%(_counter, location[0]), location[1], location[2]  # :(
-        bot.send_message(chat_id=chat_id, text=name, parse_mode=ParseMode.HTML)
-        bot.send_location(chat_id=chat_id, latitude=latitude, longitude=longitude)
+        name, latitude, longitude = "%d) %s" % (_counter, location[0]), location[1], location[2]  # :(
+        address, distance = location[3], "%.0f"%(location[4]*1000)
+        text_message = "%s, %s m\n\n%s" % (name, distance, address)
+        bot.send_message(chat_id=chat_id,
+                         text=text_message,
+                         parse_mode=ParseMode.HTML)
+        bot.send_location(chat_id=chat_id,
+                          latitude=latitude,
+                          longitude=longitude)
         _counter += 1
 
     bot.send_message(chat_id=chat_id, text=AvailableStrings.finding_text_final, reply_markup=reply_markup)

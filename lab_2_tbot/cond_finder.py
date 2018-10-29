@@ -2,6 +2,7 @@ import logging
 import logging.handlers
 import sys
 
+import config
 from src import commands
 from src.strings import AvailableStrings
 from telegram import Bot
@@ -11,14 +12,12 @@ from telegram.ext import Filters
 from telegram.ext import MessageHandler
 from telegram.ext import Updater
 
-from . import config
-
 
 def setUpLoggers():
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    logger = logging.getLogger('btcLogger')
+    formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+    logger = logging.getLogger("btcLogger")
     logger.setLevel(logging.DEBUG)
-    fh = logging.handlers.TimedRotatingFileHandler(filename=config.LOGPATH, when='d', interval=7, backupCount=3)
+    fh = logging.handlers.TimedRotatingFileHandler(filename=config.LOGPATH, when="d", interval=7, backupCount=3)
     fh.setLevel(logging.DEBUG)
     fh.setFormatter(formatter)
     logger.addHandler(fh)
@@ -40,9 +39,9 @@ except InvalidToken:
 
 dispatcher = updater.dispatcher
 
-startCommandHandler = CommandHandler('start', commands.startCommand)
-helpCommandHandler = CommandHandler('help', commands.helpCommand)
-findCommandHandler = CommandHandler('location', commands.helpCommand)
+startCommandHandler = CommandHandler("start", commands.startCommand)
+helpCommandHandler = CommandHandler("help", commands.helpCommand)
+findCommandHandler = CommandHandler("location", commands.helpCommand)
 findStoresHandler = MessageHandler(Filters.location, commands.locationMessage)
 
 dispatcher.add_handler(startCommandHandler)
