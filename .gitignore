@@ -1,5 +1,3 @@
-.idea/workspace.xml
-.idea/pfur_ait.iml
-.idea/misc.xml
+.idea/*
 lab_2_tbot/config.py
 *.sqlite3
