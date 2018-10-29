@@ -1,35 +1,39 @@
-from telegram import KeyboardButton
-from telegram import ReplyKeyboardMarkup
-from telegram import ParseMode
-from telegram import ReplyKeyboardRemove
-from telegram import ChatAction
-from . import strings
+import logging
+
 from src.points_finder import PointsFinder
+from telegram import ChatAction
+from telegram import KeyboardButton
+from telegram import ParseMode
+from telegram import ReplyKeyboardMarkup
+from telegram import ReplyKeyboardRemove
+
+from .strings import AvailableStrings
+
+logger = logging.getLogger(__name__)
 
 finder = PointsFinder('data/base_drugstores_supermarkets.csv')
 
-keyboard = [[KeyboardButton(strings.button_text, callback_data="location", request_location=True)]]
-text_answer = {
-    "startCommand": strings.hi,
-    "helpCommand": strings.help,
-}
+keyboard = [[KeyboardButton(AvailableStrings.button_text, callback_data="location", request_location=True)]]
 reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
-def makeUserDecor(func):
-    def makeUserDecor_(bot, update) :
-        bot.send_message(chat_id = update.message.chat_id,
-                         text = text_answer[func.__name__],
-                         reply_markup = reply_markup)
-        func(bot, update)
-    return makeUserDecor_
 
-@makeUserDecor
 def startCommand(bot, update):
-    pass
+    try:
+        bot.send_message(chat_id=update.message.chat_id,
+                         text=AvailableStrings.hi,
+                         reply_markup=reply_markup)
+    except Exception as exc:
+        logger.warning("EXCEPTION %s: %s", exc, exc.message)
 
-@makeUserDecor
+
 def helpCommand(bot, update):
-    pass
+    try:
+        bot.send_message(chat_id=update.message.chat_id,
+                         text=AvailableStrings.help,
+                         reply_markup=reply_markup)
+    except Exception as exc:
+        logger.warning("EXCEPTION %s: %s", exc, exc.message)
+
 
 def locationMessage(bot, update):
     chat_id = update.message.chat.id
@@ -38,7 +42,7 @@ def locationMessage(bot, update):
     bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 
     locations = finder(curr_location[0], curr_location[1])
-    bot.send_message(chat_id=chat_id, text=strings.start_finding_text, parse_mode=ParseMode.HTML, reply_markup=ReplyKeyboardRemove())
+    bot.send_message(chat_id=chat_id, text=AvailableStrings.finding_text_start, parse_mode=ParseMode.HTML, reply_markup=ReplyKeyboardRemove())
     _counter = 1
     for location in locations:
         name, latitude, longitude = '%d) %s'%(_counter, location[0]), location[1], location[2]  # :(
@@ -46,4 +50,4 @@ def locationMessage(bot, update):
         bot.send_location(chat_id=chat_id, latitude=latitude, longitude=longitude)
         _counter += 1
 
-    bot.send_message(chat_id=chat_id, text=strings.final_text, reply_markup = reply_markup)
+    bot.send_message(chat_id=chat_id, text=AvailableStrings.finding_text_final, reply_markup=reply_markup)
