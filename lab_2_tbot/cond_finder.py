@@ -1,10 +1,8 @@
 import logging
 import logging.handlers
-import os
 import sys
 
 from src import commands
-from src import config
 from src.strings import AvailableStrings
 from telegram import Bot
 from telegram.error import InvalidToken
@@ -12,6 +10,8 @@ from telegram.ext import CommandHandler
 from telegram.ext import Filters
 from telegram.ext import MessageHandler
 from telegram.ext import Updater
+
+from . import config
 
 
 def setUpLoggers():
@@ -29,8 +29,8 @@ setUpLoggers()
 logger = logging.getLogger(__name__)
 
 try:
-    Bot._validate_token(token=os.environ['COND_BOT_TOKEN'])
-    updater = Updater(token=os.environ['COND_BOT_TOKEN'])
+    Bot._validate_token(token=config.COND_BOT_TOKEN)
+    updater = Updater(token=config.COND_BOT_TOKEN)
 except KeyError:
     logger.warning(AvailableStrings.error_token_not_found)
     sys.exit(0)

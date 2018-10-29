@@ -6,10 +6,7 @@ Install requirements:
 
 `````$ pip install -r requirements`````
 
-change the following lines in SECURITY.sh:
+change the following lines in config.py:
 
-``` export COND_BOT_TOKEN=  # token of your bot```
-
-and run the command:
-
-```$ source SECURITY.sh```
+``` COND_BOT_TOKEN=  # token of your bot ```
+``` LOCATIONIQ_TOKEN=  # token of your LocationIQ app ```
