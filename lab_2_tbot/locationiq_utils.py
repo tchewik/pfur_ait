@@ -49,28 +49,31 @@ def format_address(json_address):
     return ",".join(res)
 
 
-with open('data/base_drugstores_supermarkets.csv', "r") as base:
-    with open("data/temp_base.csv", "a+") as temp_base:
-        _counter = 0
-        for line in base.readlines():
-            splitted_line = line.split(",")
-            name = ''.join(splitted_line[:-2])
-            latitude, longitude = splitted_line[-2:]
-            json_address = get_address(latitude, longitude)
-            if json_address:
-                temp_line = "\t".join([name,
-                                       latitude,
-                                       longitude[:-1],
-                                       format_address(json_address)]) + "\n"
-                temp_base.write(temp_line)
-            else:
-                with open("data/temp_base_no_addresses.csv", "a+") as void_base:
+def extend_base_list():
+    with open('data/base_drugstores_supermarkets.csv', "r") as base:
+        with open("data/temp_base.csv", "a+") as temp_base:
+            _counter = 0
+            for line in base.readlines():
+                splitted_line = line.split(",")
+                name = ''.join(splitted_line[:-2])
+                latitude, longitude = splitted_line[-2:]
+                json_address = get_address(latitude, longitude)
+                if json_address:
                     temp_line = "\t".join([name,
                                            latitude,
-                                           longitude])
-                    void_base.write(temp_line)
+                                           longitude[:-1],
+                                           format_address(json_address)]) + "\n"
+                    temp_base.write(temp_line)
+                else:
+                    with open("data/temp_base_no_addresses.csv", "a+") as void_base:
+                        temp_line = "\t".join([name,
+                                               latitude,
+                                               longitude])
+                        void_base.write(temp_line)
 
-            time.sleep(1.001)
-            _counter += 1
-            if _counter % 150 == 0:
-                print("Processed the line %d" % _counter)
+                time.sleep(1.001)
+                _counter += 1
+                if _counter % 150 == 0:
+                    print("Processed the line %d" % _counter)
+
+#extend_base_list()

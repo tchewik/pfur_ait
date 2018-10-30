@@ -41,7 +41,7 @@ dispatcher = updater.dispatcher
 
 startCommandHandler = CommandHandler("start", commands.startCommand)
 helpCommandHandler = CommandHandler("help", commands.helpCommand)
-findCommandHandler = CommandHandler("location", commands.helpCommand)
+findCommandHandler = CommandHandler("location", commands.locationMessage)
 findStoresHandler = MessageHandler(Filters.location, commands.locationMessage)
 
 dispatcher.add_handler(startCommandHandler)

@@ -45,15 +45,19 @@ def locationMessage(bot, update):
     curr_location = (update.message.location.latitude, update.message.location.longitude)
     bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 
-    locations = finder(curr_location[0], curr_location[1])
+    try:
+        locations = finder(curr_location[0], curr_location[1])
+    except:
+        logger.error("Unexpected error:", sys.exc_info())
+
     bot.send_message(chat_id=chat_id, text=AvailableStrings.finding_text_start,
                      parse_mode=ParseMode.HTML,
                      reply_markup=ReplyKeyboardRemove())
     _counter = 1
     for location in locations:
         name, latitude, longitude = "%d) %s" % (_counter, location[0]), location[1], location[2]  # :(
-        address, distance = location[3], "%.0f"%(location[4]*1000)
-        text_message = "%s, %s m\n\n%s" % (name, distance, address)
+        address, distance = location[3], location[4]
+        text_message = "%s, %d m\n\n%s" % (name, distance, address)
         bot.send_message(chat_id=chat_id,
                          text=text_message,
                          parse_mode=ParseMode.HTML)
