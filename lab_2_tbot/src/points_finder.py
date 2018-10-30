@@ -18,6 +18,7 @@ class PointsFinder:
     def __call__(self, latitude, longitude, n=3, *args, **kwargs):
         """ Returns n places nearby the given coordinates. """
         distances = self._data.apply(lambda row: self.distance(latitude, longitude, row[1], row[2]), axis=1)
+        distances.drop_duplicates(keep=False, inplace=True)
         minimum = distances.nsmallest(3).min()
         if minimum < self.OFFLINE_RADIUS:
             top3 = distances.nsmallest(3).index.values
